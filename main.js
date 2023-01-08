@@ -1,5 +1,3 @@
-console.log("main loaded");
-
 let playerScore = 0;
 let computerScore = 0;
 const playerScore_span = document.getElementById('playerScore');
@@ -10,7 +8,6 @@ const rock_div = document.getElementById('Rock');
 const paper_div = document.getElementById('Paper');
 const scissors_div = document.getElementById('Scissors');
 
-const FADE_OUT_INTERVAL = 500;
 
 function getAiChoice(){
     const choices = ['r', 'p', 's'];
@@ -22,6 +19,12 @@ function refreshScore(){
     playerScore_span.innerHTML = playerScore;
     computerScore_span.innerHTML = computerScore;
 }
+function changePlaneUnderImg(div, className){
+    const FADE_OUT_INTERVAL = 500;
+    div.classList.add(className);
+    setTimeout( ()=> div.classList.remove(className) , FADE_OUT_INTERVAL)
+}
+
 
 class Player{
     constructor(player, compueterChoice){
@@ -40,8 +43,7 @@ class Player{
         refreshScore();
         result_p.innerHTML = `${this.convertToWord(this.playerChoice)} > ${this.convertToWord(this.AI)}. You WON`;
 
-        this.choice_div.classList.add('greenBorder');
-        setTimeout( ()=>this.choice_div.classList.remove('greenBorder') , FADE_OUT_INTERVAL)
+        changePlaneUnderImg(this.choice_div, 'greenBorder');
     };
     lose(){
         console.log("AI WINS !");
@@ -49,21 +51,20 @@ class Player{
         refreshScore();
         result_p.innerHTML = `${this.convertToWord(this.playerChoice)} < ${this.convertToWord(this.AI)}. You LOST...`;
 
-        this.choice_div.classList.add('redBorder');
-        setTimeout( ()=>this.choice_div.classList.remove('redBorder') , FADE_OUT_INTERVAL)
+        changePlaneUnderImg(this.choice_div, 'redBorder');
     };
     draw(){
         console.log("DRAW !");
         result_p.innerHTML = `${this.convertToWord(this.playerChoice)} === ${this.convertToWord(this.AI)}. It's DRAW`;
 
-        this.choice_div.classList.add('grayBorder');
-        setTimeout( ()=>this.choice_div.classList.remove('grayBorder') , FADE_OUT_INTERVAL)
+        changePlaneUnderImg(this.choice_div, 'grayBorder');
     };
 }
 
 function game(playerChoice) {
     const aiChoice = getAiChoice();
     const player = new Player(playerChoice, aiChoice);
+
     switch (playerChoice + aiChoice) {
         case 'rs':    
         case 'pr':
@@ -102,6 +103,7 @@ function main()
     });
 }
 
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded");
     main();
-}
+});
