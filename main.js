@@ -103,7 +103,19 @@ function main()
     });
 }
 
+function resetPoints(){
+    console.log('resetPoints()');
+    playerScore = 0;
+    computerScore = 0;
+    refreshScore();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOMContentLoaded");
     main();
+
+    const resetBtn = document.getElementById('resetBtn');
+    resetBtn.addEventListener('click', event => {
+        resetPoints();
+    });
 });
